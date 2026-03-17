@@ -1,0 +1,96 @@
+---
+/**
+ * 실천불교전국승가회 — 메인 페이지
+ * TempleScrollHero 컴포넌트 사용 예시
+ *
+ * ⚠ 반드시 client:only="react" 사용 (SSR 불가 컴포넌트)
+ */
+import Layout from "../layouts/Layout.astro";
+import TempleScrollHero from "../components/TempleScrollHero";
+
+// ── 갤러리 이미지 (Cloudinary 또는 로컬) ──
+const heroImages = [
+  "/images/gallery/temple-01.jpg",
+  "/images/gallery/temple-02.jpg",
+  "/images/gallery/temple-03.jpg",
+  "/images/gallery/temple-04.jpg",
+  "/images/gallery/temple-05.jpg",
+  "/images/gallery/temple-06.jpg",
+  "/images/gallery/temple-07.jpg",
+  "/images/gallery/temple-08.jpg",
+  "/images/gallery/temple-09.jpg",
+  "/images/gallery/temple-10.jpg",
+  "/images/gallery/temple-11.jpg",
+  "/images/gallery/temple-12.jpg",
+  "/images/gallery/temple-13.jpg",
+  "/images/gallery/temple-14.jpg",
+  "/images/gallery/temple-15.jpg",
+  "/images/gallery/temple-16.jpg",
+];
+
+// ── 각 카드별 링크 & 라벨 매핑 ──
+const cardLinks: Record<number, string> = {
+  0: "/about",
+  1: "/news",
+  2: "/activities",
+  3: "/participate",
+  4: "/archive",
+  5: "/studio/slides",
+  6: "/studio/quiz",
+  7: "/studio/qna",
+  8: "/studio/flashcards",
+  9: "/studio/mindmaps",
+  10: "/studio/infographic",
+  11: "/studio/reports",
+  12: "/studio/data-tables",
+  13: "/donate",
+  14: "/register",
+  15: "/contact",
+};
+
+const cardLabels: Record<number, string> = {
+  0: "승가회 소개",
+  1: "소식",
+  2: "실천 활동",
+  3: "연대와 참여",
+  4: "아카이브",
+  5: "슬라이드",
+  6: "퀴즈",
+  7: "Q&A",
+  8: "플래시카드",
+  9: "마인드맵",
+  10: "인포그래픽",
+  11: "보고서",
+  12: "데이터 표",
+  13: "후원하기",
+  14: "회원가입",
+  15: "문의",
+};
+---
+
+<Layout title="실천불교전국승가회">
+  <!-- ★ client:only="react" 필수 — window/ResizeObserver 사용 컴포넌트 -->
+  <TempleScrollHero
+    client:only="react"
+    images={heroImages}
+    introTitle="실천으로 밝히는 정토사회의 길"
+    introSubtitle="스크롤하여 탐색하세요"
+    arcTitle="수행과 실천, 30년의 여정"
+    arcDesc="1992년 창립부터 2026년 현재까지, 한국 불교 개혁의 중심"
+    cardLinks={cardLinks}
+    cardLabels={cardLabels}
+    bgClass="bg-amber-50/40"
+  />
+
+  <!-- Hero 아래 본문 — 스크롤 트랩 해제 후 자연스럽게 진입 -->
+  <main>
+    <section class="py-20 bg-white">
+      <div class="max-w-5xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold text-stone-900 mb-4" style="font-family: 'Noto Serif KR', serif;">
+          승가의 목소리
+        </h2>
+        <p class="text-stone-500">최신 성명서와 활동 소식을 확인하세요.</p>
+      </div>
+    </section>
+  </main>
+</Layout>

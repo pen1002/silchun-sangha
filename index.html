@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>실천불교전국승가회 — 수행과 실천, 정토사회를 향하여</title>
+<meta name="description" content="실천불교전국승가회 공식 홈페이지. 1992년 창립, 불교 내 모순 해결과 정토사회 구현을 위한 실천적 승가 운동.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   실천불교전국승가회 — Design System
+   Buddhist NGO Aesthetic: 참여연대 Grid + 절제된 단청
+   ═══════════════════════════════════════════ */
+
+:root {
+  /* 절제된 불교 컬러 팔레트 */
+  --dancheong-red: #8B2500;        /* 짙은 단청 적색 */
+  --dancheong-green: #2D5016;      /* 녹청색 */
+  --ink-black: #1A1A1A;            /* 먹색 */
+  --warm-black: #2C2824;           /* 온먹색 */
+  --temple-gold: #B8860B;          /* 절제된 금색 */
+  --lotus-gray: #F5F2ED;           /* 연꽃빛 회색 (배경) */
+  --paper-white: #FAFAF7;          /* 한지 백색 */
+  --stone-gray: #9B958D;           /* 석탑 회색 */
+  --mist-gray: #E8E4DE;            /* 안개 회색 */
+  --deep-navy: #1B2838;            /* 심해 남색 */
+  --accent-teal: #2A6B5E;          /* 녹청 액센트 */
+
+  /* Typography */
+  --font-serif: 'Noto Serif KR', 'Batang', serif;
+  --font-sans: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  --font-display: 'Crimson Pro', var(--font-serif);
+
+  /* Spacing */
+  --nav-height: 64px;
+  --section-gap: 100px;
+  --container-max: 1240px;
+  --container-padding: 24px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-sans);
+  color: var(--ink-black);
+  background: var(--paper-white);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul, ol { list-style: none; }
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* ═══════════════════════════════════════════
+   TOP BAR (참여연대식 상단 유틸리티)
+   ═══════════════════════════════════════════ */
+.top-bar {
+  background: var(--ink-black);
+  color: #aaa;
+  font-size: 12px;
+  padding: 6px 0;
+}
+.top-bar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.top-bar a {
+  color: #aaa;
+  transition: color .2s;
+  margin-left: 16px;
+}
+.top-bar a:hover { color: #fff; }
+.top-bar__slogan {
+  font-family: var(--font-serif);
+  color: var(--stone-gray);
+  letter-spacing: .5px;
+}
+
+/* ═══════════════════════════════════════════
+   MAIN NAVIGATION
+   ═══════════════════════════════════════════ */
+.main-nav {
+  background: var(--paper-white);
+  border-bottom: 2px solid var(--dancheong-red);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: box-shadow .3s;
+}
+.main-nav.scrolled {
+  box-shadow: 0 2px 20px rgba(0,0,0,.08);
+}
+.main-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-logo__icon {
+  width: 40px;
+  height: 40px;
+  background: var(--dancheong-red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  font-family: var(--font-serif);
+  font-weight: 700;
+}
+.nav-logo__text {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--warm-black);
+  line-height: 1.2;
+}
+.nav-logo__text small {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--stone-gray);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.nav-menu__item {
+  position: relative;
+  padding: 0 18px;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--warm-black);
+  transition: color .2s;
+  cursor: pointer;
+}
+.nav-menu__item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--dancheong-red);
+  transition: width .3s;
+}
+.nav-menu__item:hover { color: var(--dancheong-red); }
+.nav-menu__item:hover::after { width: 70%; }
+
+.nav-donate {
+  margin-left: 12px;
+  padding: 8px 20px;
+  background: var(--dancheong-red);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: all .2s;
+}
+.nav-donate:hover {
+  background: #6E1D00;
+  transform: translateY(-1px);
+}
+
+/* Mobile menu toggle */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+}
+.nav-toggle span {
+  width: 22px;
+  height: 2px;
+  background: var(--warm-black);
+  transition: all .3s;
+}
+
+/* ═══════════════════════════════════════════
+   HERO SECTION — 대형 배너
+   ═══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  height: 560px;
+  background: var(--deep-navy);
+  overflow: hidden;
+}
+.hero__slides {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  background-size: cover;
+  background-position: center;
+}
+.hero__slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(27,40,56,.85) 0%, rgba(139,37,0,.4) 100%);
+}
+.hero__slide.active { opacity: 1; }
+
+/* Placeholder gradient backgrounds for slides */
+.hero__slide:nth-child(1) {
+  background: linear-gradient(135deg, #1B2838 0%, #2D5016 50%, #8B2500 100%);
+}
+.hero__slide:nth-child(2) {
+  background: linear-gradient(135deg, #2D5016 0%, #1B2838 50%, #B8860B 100%);
+}
+.hero__slide:nth-child(3) {
+  background: linear-gradient(135deg, #8B2500 0%, #2A6B5E 50%, #1B2838 100%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hero__eyebrow {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--temple-gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp .8s .3s forwards;
+}
+.hero__title {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 20px;
+  max-width: 700px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp .8s .5s forwards;
+}
+.hero__title em {
+  font-style: normal;
+  color: var(--temple-gold);
+}
+.hero__desc {
+  font-size: 16px;
+  color: rgba(255,255,255,.75);
+  max-width: 520px;
+  line-height: 1.8;
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp .8s .7s forwards;
+}
+.hero__actions {
+  display: flex;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp .8s .9s forwards;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: all .25s;
+}
+.btn--primary {
+  background: var(--dancheong-red);
+  color: #fff;
+}
+.btn--primary:hover { background: #6E1D00; transform: translateY(-2px); }
+.btn--outline {
+  border: 1.5px solid rgba(255,255,255,.4);
+  color: #fff;
+}
+.btn--outline:hover { border-color: #fff; background: rgba(255,255,255,.08); }
+
+/* Hero slide indicator dots */
+.hero__dots {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 10px;
+}
+.hero__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.3);
+  cursor: pointer;
+  transition: all .3s;
+}
+.hero__dot.active {
+  background: var(--temple-gold);
+  transform: scale(1.2);
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   "지금, 승가는" — 최신 성명/활동 (참여연대식)
+   ═══════════════════════════════════════════ */
+.now-section {
+  padding: 80px 0;
+  background: var(--paper-white);
+}
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ink-black);
+}
+.section-header__title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink-black);
+}
+.section-header__title span {
+  color: var(--dancheong-red);
+}
+.section-header__more {
+  font-size: 13px;
+  color: var(--stone-gray);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color .2s;
+}
+.section-header__more:hover { color: var(--dancheong-red); }
+
+/* News Grid (참여연대식 그리드) */
+.news-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.news-featured {
+  grid-row: span 2;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--deep-navy);
+  min-height: 400px;
+}
+.news-featured__img {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #2D5016, #1B2838);
+  opacity: .6;
+}
+.news-featured__body {
+  position: relative;
+  z-index: 1;
+  padding: 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.news-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 3px;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+.news-tag--statement { background: var(--dancheong-red); color: #fff; }
+.news-tag--news { background: var(--accent-teal); color: #fff; }
+.news-tag--activity { background: var(--temple-gold); color: #fff; }
+.news-tag--notice { background: var(--stone-gray); color: #fff; }
+
+.news-featured__title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+.news-featured__date {
+  font-size: 12px;
+  color: rgba(255,255,255,.6);
+}
+
+.news-card {
+  display: flex;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--mist-gray);
+  transition: transform .2s;
+  cursor: pointer;
+}
+.news-card:hover { transform: translateX(4px); }
+.news-card__thumb {
+  width: 140px;
+  height: 100px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  background: var(--mist-gray);
+  overflow: hidden;
+}
+.news-card__thumb-gradient {
+  width: 100%;
+  height: 100%;
+}
+.news-card:nth-child(2) .news-card__thumb-gradient {
+  background: linear-gradient(135deg, #8B2500, #B8860B);
+}
+.news-card:nth-child(3) .news-card__thumb-gradient {
+  background: linear-gradient(135deg, #2A6B5E, #1B2838);
+}
+
+.news-card__body { flex: 1; }
+.news-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-card__meta {
+  font-size: 12px;
+  color: var(--stone-gray);
+  display: flex;
+  gap: 12px;
+}
+
+/* ═══════════════════════════════════════════
+   QUICK LINKS STRIP
+   ═══════════════════════════════════════════ */
+.quick-strip {
+  padding: 48px 0;
+  background: var(--lotus-gray);
+  border-top: 1px solid var(--mist-gray);
+  border-bottom: 1px solid var(--mist-gray);
+}
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.quick-card {
+  background: #fff;
+  padding: 28px 24px;
+  border-radius: 8px;
+  text-align: center;
+  transition: all .3s;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.quick-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.06);
+  border-color: var(--dancheong-red);
+}
+.quick-card__icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.quick-card:nth-child(1) .quick-card__icon { background: #FFF3E8; }
+.quick-card:nth-child(2) .quick-card__icon { background: #E8F5E8; }
+.quick-card:nth-child(3) .quick-card__icon { background: #E8EDF5; }
+.quick-card:nth-child(4) .quick-card__icon { background: #F5E8E8; }
+
+.quick-card__title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+.quick-card__desc {
+  font-size: 12px;
+  color: var(--stone-gray);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════
+   TIMELINE — 역사 연표 섹션
+   ═══════════════════════════════════════════ */
+.timeline-section {
+  padding: var(--section-gap) 0;
+  background: var(--deep-navy);
+  color: #fff;
+}
+.timeline-section .section-header {
+  border-bottom-color: rgba(255,255,255,.2);
+}
+.timeline-section .section-header__title { color: #fff; }
+.timeline-section .section-header__title span { color: var(--temple-gold); }
+
+.timeline {
+  position: relative;
+  padding: 40px 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: rgba(255,255,255,.15);
+  transform: translateX(-50%);
+}
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 48px;
+  position: relative;
+}
+.timeline-item:nth-child(odd) { flex-direction: row-reverse; text-align: right; }
+.timeline-item:nth-child(odd) .timeline-item__content { padding-right: 48px; padding-left: 0; }
+.timeline-item:nth-child(even) .timeline-item__content { padding-left: 48px; }
+
+.timeline-item__content {
+  width: 50%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all .6s;
+}
+.timeline-item__content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.timeline-item__dot {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--temple-gold);
+  border: 3px solid var(--deep-navy);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+.timeline-item__year {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--temple-gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.timeline-item__title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.timeline-item__desc {
+  font-size: 14px;
+  color: rgba(255,255,255,.65);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════
+   활동 섹션 — Activities
+   ═══════════════════════════════════════════ */
+.activities-section {
+  padding: var(--section-gap) 0;
+  background: var(--paper-white);
+}
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.activity-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--lotus-gray);
+  transition: all .3s;
+  cursor: pointer;
+}
+.activity-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,.08); }
+.activity-card__img {
+  height: 200px;
+  position: relative;
+}
+.activity-card:nth-child(1) .activity-card__img { background: linear-gradient(135deg, #8B2500, #2D5016); }
+.activity-card:nth-child(2) .activity-card__img { background: linear-gradient(135deg, #2A6B5E, #B8860B); }
+.activity-card:nth-child(3) .activity-card__img { background: linear-gradient(135deg, #1B2838, #8B2500); }
+
+.activity-card__category {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 4px 12px;
+  background: rgba(0,0,0,.6);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+.activity-card__body { padding: 24px; }
+.activity-card__title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.activity-card__excerpt {
+  font-size: 13px;
+  color: var(--stone-gray);
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   ARCHIVE — 디지털 사료관
+   ═══════════════════════════════════════════ */
+.archive-section {
+  padding: var(--section-gap) 0;
+  background: var(--lotus-gray);
+}
+.archive-search-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 40px;
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.04);
+}
+.archive-search-bar input {
+  flex: 1;
+  border: none;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-family: var(--font-sans);
+  outline: none;
+  background: transparent;
+}
+.archive-search-bar input::placeholder { color: var(--stone-gray); }
+.archive-search-btn {
+  padding: 12px 32px;
+  background: var(--dancheong-red);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background .2s;
+}
+.archive-search-btn:hover { background: #6E1D00; }
+
+.archive-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.archive-tag {
+  padding: 6px 16px;
+  background: #fff;
+  border: 1px solid var(--mist-gray);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--warm-black);
+  cursor: pointer;
+  transition: all .2s;
+}
+.archive-tag:hover, .archive-tag.active {
+  background: var(--dancheong-red);
+  color: #fff;
+  border-color: var(--dancheong-red);
+}
+
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.archive-item {
+  background: #fff;
+  border-radius: 6px;
+  padding: 20px;
+  border-left: 3px solid var(--dancheong-red);
+  transition: all .2s;
+  cursor: pointer;
+}
+.archive-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+}
+.archive-item__type {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dancheong-red);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.archive-item__title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.archive-item__date {
+  font-size: 12px;
+  color: var(--stone-gray);
+}
+
+/* ═══════════════════════════════════════════
+   STUDIO — NotebookLM 콘텐츠 (슬라이드/퀴즈/Q&A)
+   ═══════════════════════════════════════════ */
+.studio-section {
+  padding: var(--section-gap) 0;
+  background: #fff;
+}
+.studio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.studio-card {
+  background: var(--lotus-gray);
+  border-radius: 12px;
+  padding: 28px 24px;
+  text-align: center;
+  transition: all .3s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.studio-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--dancheong-red);
+  transform: scaleX(0);
+  transition: transform .3s;
+}
+.studio-card:hover::before { transform: scaleX(1); }
+.studio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.06);
+}
+
+.studio-card__icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+.studio-card:nth-child(1) .studio-card__icon { background: #E3E8F0; }
+.studio-card:nth-child(2) .studio-card__icon { background: #E8F0E3; }
+.studio-card:nth-child(3) .studio-card__icon { background: #F0E8E3; }
+.studio-card:nth-child(4) .studio-card__icon { background: #E3F0ED; }
+.studio-card:nth-child(5) .studio-card__icon { background: #F0E3EB; }
+.studio-card:nth-child(6) .studio-card__icon { background: #EDE3F0; }
+.studio-card:nth-child(7) .studio-card__icon { background: #E3ECF0; }
+.studio-card:nth-child(8) .studio-card__icon { background: #F0F0E3; }
+
+.studio-card__title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+.studio-card__count {
+  font-size: 12px;
+  color: var(--stone-gray);
+}
+
+/* ═══════════════════════════════════════════
+   참여 / 후원 CTA
+   ═══════════════════════════════════════════ */
+.cta-section {
+  padding: 80px 0;
+  background: var(--dancheong-red);
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '卍';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 400px;
+  opacity: .04;
+  color: #fff;
+}
+.cta-section__title {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 16px;
+  position: relative;
+}
+.cta-section__desc {
+  font-size: 16px;
+  opacity: .8;
+  max-width: 560px;
+  margin: 0 auto 32px;
+  line-height: 1.8;
+  position: relative;
+}
+.cta-section .btn--primary {
+  background: #fff;
+  color: var(--dancheong-red);
+  font-size: 16px;
+  padding: 14px 40px;
+  position: relative;
+}
+.cta-section .btn--primary:hover {
+  background: var(--temple-gold);
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════════
+   NOTICE TICKER (공지사항 띠 배너)
+   ═══════════════════════════════════════════ */
+.notice-ticker {
+  background: var(--ink-black);
+  padding: 14px 0;
+  overflow: hidden;
+}
+.ticker-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.ticker-label {
+  flex-shrink: 0;
+  padding: 4px 14px;
+  background: var(--dancheong-red);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 3px;
+}
+.ticker-content {
+  display: flex;
+  gap: 48px;
+  animation: tickerScroll 30s linear infinite;
+  white-space: nowrap;
+}
+.ticker-content span {
+  color: rgba(255,255,255,.7);
+  font-size: 13px;
+}
+.ticker-content span strong {
+  color: var(--temple-gold);
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════ */
+.site-footer {
+  background: var(--warm-black);
+  color: rgba(255,255,255,.5);
+  padding: 60px 0 40px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+.footer-brand__name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.footer-brand__info {
+  font-size: 13px;
+  line-height: 1.8;
+}
+.footer-col__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,.8);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.footer-col a {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 10px;
+  transition: color .2s;
+}
+.footer-col a:hover { color: var(--temple-gold); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+.footer-partners {
+  display: flex;
+  gap: 20px;
+}
+.footer-partners a {
+  opacity: .5;
+  transition: opacity .2s;
+}
+.footer-partners a:hover { opacity: 1; }
+
+/* ═══════════════════════════════════════════
+   MOBILE RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .news-grid { grid-template-columns: 1fr; }
+  .news-featured { grid-row: span 1; min-height: 300px; }
+  .activities-grid { grid-template-columns: repeat(2, 1fr); }
+  .archive-grid { grid-template-columns: repeat(2, 1fr); }
+  .studio-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .timeline-item { flex-direction: column !important; text-align: left !important; }
+  .timeline-item__content { width: 100% !important; padding-left: 48px !important; padding-right: 0 !important; }
+  .timeline::before { left: 16px; }
+  .timeline-item__dot { left: 16px; }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 56px;
+    --section-gap: 64px;
+  }
+  .top-bar { display: none; }
+  .nav-menu { display: none; }
+  .nav-menu.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: var(--paper-white);
+    border-bottom: 2px solid var(--dancheong-red);
+    box-shadow: 0 8px 30px rgba(0,0,0,.1);
+    padding: 16px 0;
+  }
+  .nav-menu__item {
+    height: auto;
+    padding: 12px 24px;
+  }
+  .nav-donate { margin: 12px 24px 0; text-align: center; display: block; }
+  .nav-toggle { display: flex; }
+  .hero { height: 440px; }
+  .hero__title { font-size: 28px; }
+  .quick-grid { grid-template-columns: repeat(2, 1fr); }
+  .activities-grid { grid-template-columns: 1fr; }
+  .archive-grid { grid-template-columns: 1fr; }
+  .studio-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  .news-card__thumb { width: 100px; height: 75px; }
+  .archive-search-bar { flex-direction: column; }
+  .archive-search-btn { text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .quick-grid { grid-template-columns: 1fr; }
+  .studio-grid { grid-template-columns: 1fr; }
+  .hero__actions { flex-direction: column; }
+  .hero__actions .btn { text-align: center; justify-content: center; }
+}
+
+/* ── Accessibility ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+:focus-visible {
+  outline: 2px solid var(--dancheong-red);
+  outline-offset: 2px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ TOP BAR ═══════════ -->
+<div class="top-bar" role="banner">
+  <div class="container">
+    <span class="top-bar__slogan">수행과 실천, 정토사회를 향하여</span>
+    <nav aria-label="유틸리티 메뉴">
+      <a href="#login">로그인</a>
+      <a href="#register">회원가입</a>
+      <a href="#sitemap">사이트맵</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ═══════════ MAIN NAVIGATION ═══════════ -->
+<header class="main-nav" id="mainNav">
+  <div class="container">
+    <a href="/" class="nav-logo" aria-label="실천불교전국승가회 홈으로">
+      <div class="nav-logo__icon" aria-hidden="true">實</div>
+      <div class="nav-logo__text">
+        실천불교전국승가회
+        <small>Since 1992 · Practicing Buddhist Sangha</small>
+      </div>
+    </a>
+
+    <nav class="nav-menu" id="navMenu" aria-label="메인 메뉴">
+      <a href="#about" class="nav-menu__item" tabindex="0">승가회 소개</a>
+      <a href="#news" class="nav-menu__item" tabindex="0">소식</a>
+      <a href="#activities" class="nav-menu__item" tabindex="0">실천 활동</a>
+      <a href="#participate" class="nav-menu__item" tabindex="0">연대와 참여</a>
+      <a href="#archive" class="nav-menu__item" tabindex="0">아카이브</a>
+      <a href="#studio" class="nav-menu__item" tabindex="0">스튜디오</a>
+      <a href="#donate" class="nav-donate">후원하기 ♡</a>
+    </nav>
+
+    <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기/닫기" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════ NOTICE TICKER ═══════════ -->
+<div class="notice-ticker" aria-label="공지사항">
+  <div class="container">
+    <div class="ticker-wrap">
+      <span class="ticker-label">공지</span>
+      <div class="ticker-content" aria-live="polite">
+        <span><strong>[성명서]</strong> 팔레스타인 연대 한국군파병반대 긴급기자회견</span>
+        <span><strong>[소식]</strong> 본회 새 공동대표로 원경스님 추대</span>
+        <span><strong>[연대]</strong> 전쟁을 멈춰라! 파병을 반대한다! — 평화를 위한 오체투지</span>
+        <span><strong>[공지]</strong> 통일광장 추모사업 발족식 (3.18 저녁 7시)</span>
+        <span><strong>[성명서]</strong> 팔레스타인 연대 한국군파병반대 긴급기자회견</span>
+        <span><strong>[소식]</strong> 본회 새 공동대표로 원경스님 추대</span>
+        <span><strong>[연대]</strong> 전쟁을 멈춰라! 파병을 반대한다! — 평화를 위한 오체투지</span>
+        <span><strong>[공지]</strong> 통일광장 추모사업 발족식 (3.18 저녁 7시)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ HERO SECTION ═══════════ -->
+<section class="hero" id="home">
+  <div class="hero__slides">
+    <div class="hero__slide active" role="img" aria-label="1994년 종단개혁의 역사적 순간"></div>
+    <div class="hero__slide" role="img" aria-label="평화를 위한 연대 활동"></div>
+    <div class="hero__slide" role="img" aria-label="시민사회와 함께하는 실천"></div>
+  </div>
+  <div class="hero__content">
+    <p class="hero__eyebrow">지금, 승가는</p>
+    <h1 class="hero__title">
+      <em>실천</em>으로 밝히는<br>정토사회의 길
+    </h1>
+    <p class="hero__desc">
+      1992년 창립 이래, 불교 내 제반 모순과 한국 사회의 다양한 문제 해결을 위해 
+      깨달음의 사회화를 실천하는 승가 공동체입니다.
+    </p>
+    <div class="hero__actions">
+      <a href="#news" class="btn btn--primary">최신 성명서 보기 →</a>
+      <a href="#archive" class="btn btn--outline">아카이브 탐색</a>
+    </div>
+  </div>
+  <div class="hero__dots" role="tablist" aria-label="슬라이드 네비게이션">
+    <button class="hero__dot active" role="tab" aria-selected="true" aria-label="슬라이드 1"></button>
+    <button class="hero__dot" role="tab" aria-selected="false" aria-label="슬라이드 2"></button>
+    <button class="hero__dot" role="tab" aria-selected="false" aria-label="슬라이드 3"></button>
+  </div>
+</section>
+
+<!-- ═══════════ "지금, 승가는" 최신 소식 ═══════════ -->
+<section class="now-section" id="news">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title"><span>승가의</span> 목소리</h2>
+      <a href="#" class="section-header__more">전체보기 →</a>
+    </div>
+
+    <div class="news-grid">
+      <!-- Featured article -->
+      <article class="news-featured">
+        <div class="news-featured__img"></div>
+        <div class="news-featured__body">
+          <span class="news-tag news-tag--statement">성명서</span>
+          <h3 class="news-featured__title">팔레스타인 연대 한국군파병반대 긴급기자회견 — 한국정부는 이란파병 생각도 말라</h3>
+          <time class="news-featured__date">2026.03.16</time>
+        </div>
+      </article>
+
+      <!-- Side articles -->
+      <article class="news-card">
+        <div class="news-card__thumb">
+          <div class="news-card__thumb-gradient" style="background:linear-gradient(135deg,#2A6B5E,#1B2838)"></div>
+        </div>
+        <div class="news-card__body">
+          <span class="news-tag news-tag--news">소식</span>
+          <h3 class="news-card__title">본회 새 공동대표로 원경스님 추대</h3>
+          <div class="news-card__meta">
+            <time>2026.03.11</time>
+            <span>실천NEWS</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="news-card__thumb">
+          <div class="news-card__thumb-gradient" style="background:linear-gradient(135deg,#8B2500,#B8860B)"></div>
+        </div>
+        <div class="news-card__body">
+          <span class="news-tag news-tag--activity">연대</span>
+          <h3 class="news-card__title">전쟁을 멈춰라! 파병을 반대한다! — 평화를 위한 오체투지</h3>
+          <div class="news-card__meta">
+            <time>2026.03.17</time>
+            <span>공지사항</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Additional news list -->
+    <div style="margin-top:32px; display:grid; grid-template-columns: repeat(2,1fr); gap:16px;">
+      <article class="news-card" style="border-bottom:1px solid var(--mist-gray); padding:16px 0;">
+        <div class="news-card__body">
+          <span class="news-tag news-tag--notice">공지</span>
+          <h3 class="news-card__title">이란 전쟁 조기 종식과 평화를 위한 기도 이어져</h3>
+          <div class="news-card__meta"><time>2026.03.12</time></div>
+        </div>
+      </article>
+      <article class="news-card" style="border-bottom:1px solid var(--mist-gray); padding:16px 0;">
+        <div class="news-card__body">
+          <span class="news-tag news-tag--news">소식</span>
+          <h3 class="news-card__title">불교단체들, 신규핵발전소 건설 반대 성명서</h3>
+          <div class="news-card__meta"><time>2026.03.11</time></div>
+        </div>
+      </article>
+      <article class="news-card" style="border-bottom:1px solid var(--mist-gray); padding:16px 0;">
+        <div class="news-card__body">
+          <span class="news-tag news-tag--activity">연대</span>
+          <h3 class="news-card__title">18일 불교단체가 함께하는 수요시위 — 소녀상 앞</h3>
+          <div class="news-card__meta"><time>2026.03.18</time></div>
+        </div>
+      </article>
+      <article class="news-card" style="border-bottom:1px solid var(--mist-gray); padding:16px 0;">
+        <div class="news-card__body">
+          <span class="news-tag news-tag--notice">공지</span>
+          <h3 class="news-card__title">기억하라 후쿠시마, 그만짓자 핵발전소 — 탈핵시국선언</h3>
+          <div class="news-card__meta"><time>2026.03.11</time></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ QUICK LINKS ═══════════ -->
+<section class="quick-strip" id="participate">
+  <div class="container">
+    <div class="quick-grid">
+      <div class="quick-card" onclick="location.href='#donate'">
+        <div class="quick-card__icon">🙏</div>
+        <h3 class="quick-card__title">후원하기</h3>
+        <p class="quick-card__desc">미래를 향한 동행,<br>투명한 재정 공개</p>
+      </div>
+      <div class="quick-card" onclick="location.href='#participate'">
+        <div class="quick-card__icon">🤝</div>
+        <h3 class="quick-card__title">연대 참여</h3>
+        <p class="quick-card__desc">현장 네트워크,<br>봉사활동 안내</p>
+      </div>
+      <div class="quick-card" onclick="location.href='#archive'">
+        <div class="quick-card__icon">📜</div>
+        <h3 class="quick-card__title">아카이브</h3>
+        <p class="quick-card__desc">30년+ 디지털 사료관,<br>성명서·결의문·사진</p>
+      </div>
+      <div class="quick-card" onclick="location.href='#register'">
+        <div class="quick-card__icon">☸</div>
+        <h3 class="quick-card__title">회원가입</h3>
+        <p class="quick-card__desc">승가회와 함께하는<br>실천의 길</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TIMELINE ═══════════ -->
+<section class="timeline-section" id="about">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title">승가회의 <span>어제와 오늘</span></h2>
+      <a href="#" class="section-header__more" style="color:rgba(255,255,255,.5)">전체 연혁 →</a>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-item__dot"></div>
+        <div class="timeline-item__content">
+          <div class="timeline-item__year">1992</div>
+          <h3 class="timeline-item__title">실천불교전국승가회 창립</h3>
+          <p class="timeline-item__desc">정토구현전국승가회·대승불교승가회의 맥을 이어, 불교 내 모순 해결과 정토사회 구현을 목적으로 진보적 승려들이 중심이 되어 창립.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-item__dot"></div>
+        <div class="timeline-item__content">
+          <div class="timeline-item__year">1994</div>
+          <h3 class="timeline-item__title">조계종 종단개혁 핵심 참여</h3>
+          <p class="timeline-item__desc">8개 승가단체 연합의 한 축으로 4·10 전국승려대회에 참여. 민주화·자주화를 기치로 개혁종단 출범에 결정적 역할.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-item__dot"></div>
+        <div class="timeline-item__content">
+          <div class="timeline-item__year">1996</div>
+          <h3 class="timeline-item__title">평화통일을 위한 종교인협의회 공동 출범</h3>
+          <p class="timeline-item__desc">천주교정의구현전국사제단, 전국목회자정의평화실천협의회 등과 함께 종교 간 연대 기구 출범. 연세대 평화적 해결 촉구.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-item__dot"></div>
+        <div class="timeline-item__content">
+          <div class="timeline-item__year">2000~</div>
+          <h3 class="timeline-item__title">탈핵·평화·인권 실천 활동 지속</h3>
+          <p class="timeline-item__desc">반핵·평화·통일·인권 등 대사회적 실천 활동을 지속하며 시민사회단체와의 연대를 강화.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-item__dot"></div>
+        <div class="timeline-item__content">
+          <div class="timeline-item__year">2026</div>
+          <h3 class="timeline-item__title">원경스님 공동대표 추대, 새로운 도약</h3>
+          <p class="timeline-item__desc">원경스님을 새 공동대표로 추대하며, 팔레스타인 연대·이란전쟁 반대·탈핵운동 등 시대적 과제에 적극 대응 중.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ACTIVITIES ═══════════ -->
+<section class="activities-section" id="activities">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title"><span>역동적인</span> 연대</h2>
+      <a href="#" class="section-header__more">전체보기 →</a>
+    </div>
+
+    <div class="activities-grid">
+      <article class="activity-card">
+        <div class="activity-card__img">
+          <span class="activity-card__category">평화·반전</span>
+        </div>
+        <div class="activity-card__body">
+          <h3 class="activity-card__title">이란 전쟁 반대와 팔레스타인 연대</h3>
+          <p class="activity-card__excerpt">모든 생명을 귀하게 여기는 부처님의 가르침을 따라, 조계종 스님들이 이란의 평화를 발원하며 오체투지를 이어가고 있습니다.</p>
+        </div>
+      </article>
+
+      <article class="activity-card">
+        <div class="activity-card__img">
+          <span class="activity-card__category">탈핵·환경</span>
+        </div>
+        <div class="activity-card__body">
+          <h3 class="activity-card__title">신규핵발전소 건설 반대 연대</h3>
+          <p class="activity-card__excerpt">후쿠시마 사고 15주기를 맞아 시민사회단체들과 함께 탈핵시국선언. 노후 원전 가동과 원전 신설에 반대합니다.</p>
+        </div>
+      </article>
+
+      <article class="activity-card">
+        <div class="activity-card__img">
+          <span class="activity-card__category">역사·인권</span>
+        </div>
+        <div class="activity-card__body">
+          <h3 class="activity-card__title">수요시위와 역사 정의 실현</h3>
+          <p class="activity-card__excerpt">일본군 위안부 피해자를 기리며, 소녀상 앞에서 불교단체가 함께하는 수요시위를 이어가고 있습니다.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ARCHIVE ═══════════ -->
+<section class="archive-section" id="archive">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title"><span>시대의</span> 기록</h2>
+      <a href="#" class="section-header__more">전체 아카이브 →</a>
+    </div>
+
+    <!-- 통합 검색 -->
+    <div class="archive-search-bar" role="search">
+      <input type="text" placeholder="성명서, 결의문, 사진 자료를 검색하세요..." aria-label="아카이브 검색">
+      <button class="archive-search-btn" type="submit">검색</button>
+    </div>
+
+    <!-- 태그 필터 -->
+    <div class="archive-tags" role="group" aria-label="분류 필터">
+      <button class="archive-tag active">전체</button>
+      <button class="archive-tag">성명서</button>
+      <button class="archive-tag">결의문</button>
+      <button class="archive-tag">보도자료</button>
+      <button class="archive-tag">사진</button>
+      <button class="archive-tag">1992~1999</button>
+      <button class="archive-tag">2000~2009</button>
+      <button class="archive-tag">2010~2019</button>
+      <button class="archive-tag">2020~현재</button>
+    </div>
+
+    <!-- Archive Items -->
+    <div class="archive-grid">
+      <article class="archive-item">
+        <span class="archive-item__type">성명서</span>
+        <h3 class="archive-item__title">팔레스타인 연대 한국군파병반대 긴급 성명</h3>
+        <time class="archive-item__date">2026.03.16</time>
+      </article>
+      <article class="archive-item">
+        <span class="archive-item__type">보도자료</span>
+        <h3 class="archive-item__title">불교단체 신규핵발전소 건설 반대 공동성명</h3>
+        <time class="archive-item__date">2026.03.11</time>
+      </article>
+      <article class="archive-item">
+        <span class="archive-item__type">결의문</span>
+        <h3 class="archive-item__title">이란 전쟁 조기 종식을 위한 23개 불교단체 결의</h3>
+        <time class="archive-item__date">2026.03.12</time>
+      </article>
+      <article class="archive-item">
+        <span class="archive-item__type">사진자료</span>
+        <h3 class="archive-item__title">3.1 행주나루터 독립만세운동 재현 현장</h3>
+        <time class="archive-item__date">2026.03.01</time>
+      </article>
+      <article class="archive-item" style="border-left-color: var(--temple-gold);">
+        <span class="archive-item__type" style="color: var(--temple-gold);">역사기록</span>
+        <h3 class="archive-item__title">1994년 종단개혁 — 4·10 전국승려대회</h3>
+        <time class="archive-item__date">1994.04.10</time>
+      </article>
+      <article class="archive-item" style="border-left-color: var(--temple-gold);">
+        <span class="archive-item__type" style="color: var(--temple-gold);">역사기록</span>
+        <h3 class="archive-item__title">실천불교전국승가회 창립선언문</h3>
+        <time class="archive-item__date">1992.00.00</time>
+      </article>
+      <article class="archive-item" style="border-left-color: var(--accent-teal);">
+        <span class="archive-item__type" style="color: var(--accent-teal);">연대기록</span>
+        <h3 class="archive-item__title">평화통일을 위한 종교인협의회 출범</h3>
+        <time class="archive-item__date">1996.00.00</time>
+      </article>
+      <article class="archive-item" style="border-left-color: var(--accent-teal);">
+        <span class="archive-item__type" style="color: var(--accent-teal);">연대기록</span>
+        <h3 class="archive-item__title">연세대 평화적 해결 촉구 공동 성명</h3>
+        <time class="archive-item__date">1996.08.00</time>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STUDIO — NotebookLM 콘텐츠 ═══════════ -->
+<section class="studio-section" id="studio">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title"><span>학습</span> 스튜디오</h2>
+      <a href="#" class="section-header__more">전체보기 →</a>
+    </div>
+    <p style="color: var(--stone-gray); margin-bottom: 32px; font-size: 14px; line-height: 1.7;">
+      승가회의 역사와 활동을 다양한 형식으로 배우고 체험하세요. 슬라이드, 퀴즈, Q&A 등 인터랙티브 콘텐츠를 제공합니다.
+    </p>
+
+    <div class="studio-grid">
+      <div class="studio-card" data-folder="slides">
+        <div class="studio-card__icon">📊</div>
+        <h3 class="studio-card__title">슬라이드</h3>
+        <p class="studio-card__count">content/slides/</p>
+      </div>
+      <div class="studio-card" data-folder="quiz">
+        <div class="studio-card__icon">❓</div>
+        <h3 class="studio-card__title">퀴즈</h3>
+        <p class="studio-card__count">content/quiz/</p>
+      </div>
+      <div class="studio-card" data-folder="qna">
+        <div class="studio-card__icon">💬</div>
+        <h3 class="studio-card__title">Q&A</h3>
+        <p class="studio-card__count">content/qna/</p>
+      </div>
+      <div class="studio-card" data-folder="flashcards">
+        <div class="studio-card__icon">🃏</div>
+        <h3 class="studio-card__title">플래시카드</h3>
+        <p class="studio-card__count">content/flashcards/</p>
+      </div>
+      <div class="studio-card" data-folder="mindmaps">
+        <div class="studio-card__icon">🧠</div>
+        <h3 class="studio-card__title">마인드맵</h3>
+        <p class="studio-card__count">content/mindmaps/</p>
+      </div>
+      <div class="studio-card" data-folder="infographic">
+        <div class="studio-card__icon">📈</div>
+        <h3 class="studio-card__title">인포그래픽</h3>
+        <p class="studio-card__count">content/infographic/</p>
+      </div>
+      <div class="studio-card" data-folder="reports">
+        <div class="studio-card__icon">📋</div>
+        <h3 class="studio-card__title">보고서</h3>
+        <p class="studio-card__count">content/reports/</p>
+      </div>
+      <div class="studio-card" data-folder="data-tables">
+        <div class="studio-card__icon">📉</div>
+        <h3 class="studio-card__title">데이터 표</h3>
+        <p class="studio-card__count">content/data-tables/</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA — 후원 ═══════════ -->
+<section class="cta-section" id="donate">
+  <div class="container">
+    <h2 class="cta-section__title">미래를 향한 동행</h2>
+    <p class="cta-section__desc">
+      실천불교전국승가회는 비영리 민간단체로서 여러분의 후원으로 운영됩니다. 
+      모든 재정은 투명하게 공개합니다.
+    </p>
+    <a href="#" class="btn btn--primary">정기후원 신청 →</a>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3 class="footer-brand__name">실천불교전국승가회</h3>
+        <p class="footer-brand__info">
+          주소: 서울특별시 (사무국 소재지)<br>
+          전화: 02-000-0000 &nbsp;|&nbsp; 팩스: 02-000-0001<br>
+          이메일: info@silchun.org<br>
+          고유번호: 000-00-00000
+        </p>
+      </div>
+      <nav class="footer-col" aria-label="승가회 소개">
+        <h4 class="footer-col__title">소개</h4>
+        <a href="#">설립 취지</a>
+        <a href="#">연혁</a>
+        <a href="#">역대 대표</a>
+        <a href="#">조직도</a>
+      </nav>
+      <nav class="footer-col" aria-label="실천 활동">
+        <h4 class="footer-col__title">활동</h4>
+        <a href="#">평화·반전</a>
+        <a href="#">탈핵·환경</a>
+        <a href="#">역사·인권</a>
+        <a href="#">종단개혁</a>
+      </nav>
+      <nav class="footer-col" aria-label="참여">
+        <h4 class="footer-col__title">참여</h4>
+        <a href="#">회원가입</a>
+        <a href="#">후원안내</a>
+        <a href="#">봉사활동</a>
+        <a href="#">현장네트워크</a>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 실천불교전국승가회. All Rights Reserved.</span>
+      <div class="footer-partners">
+        <a href="http://www.lotusworld.or.kr/" target="_blank" rel="noopener">로터스월드</a>
+        <a href="#" target="_blank" rel="noopener">불교미래사회연구소</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════ JavaScript ═══════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── Nav Scroll Effect ──
+  const nav = document.getElementById('mainNav');
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  // ── Mobile Menu Toggle ──
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('navMenu');
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+
+  // ── Hero Slide Auto-play ──
+  const slides = document.querySelectorAll('.hero__slide');
+  const dots = document.querySelectorAll('.hero__dot');
+  let current = 0;
+
+  function goToSlide(i) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    dots[current].setAttribute('aria-selected', 'false');
+    current = i;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    dots[current].setAttribute('aria-selected', 'true');
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goToSlide(i));
+  });
+
+  setInterval(() => {
+    goToSlide((current + 1) % slides.length);
+  }, 5000);
+
+  // ── Timeline Scroll Animation ──
+  const timelineItems = document.querySelectorAll('.timeline-item__content');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+  timelineItems.forEach(item => observer.observe(item));
+
+  // ── Archive Tag Filter ──
+  const archiveTags = document.querySelectorAll('.archive-tag');
+  archiveTags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      archiveTags.forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+    });
+  });
+
+  // ── Smooth Scroll for anchor links ──
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 64;
+        window.scrollTo({
+          top: target.offsetTop - offset,
+          behavior: 'smooth'
+        });
+        // Close mobile menu
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

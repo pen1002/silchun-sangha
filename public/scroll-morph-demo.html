@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TempleScrollHero — 실천불교전국승가회 Scroll Morph Demo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #FAFAF7;
+  color: #1A1A1A;
+  overflow-x: hidden;
+}
+.hero-bg {
+  background: linear-gradient(160deg, #FFFCF2 0%, #FFF8E1 40%, #FFF5D6 100%);
+}
+.noise-overlay {
+  position: absolute; inset: 0; opacity: 0.025; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.anim-bounce { animation: bounce 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+.anim-pulse { animation: pulse 2s infinite; }
+.scroll-track { width:2px; height:80px; background:rgba(180,160,120,.2); border-radius:99px; overflow:hidden; }
+.scroll-fill { width:100%; background:rgba(153,27,27,.55); border-radius:99px; }
+.after-hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff; flex-direction: column; gap: 16px;
+}
+.after-hero h2 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 700; color: #1a1a1a;
+}
+.after-hero p { color: #8B7355; font-size: 15px; }
+.after-badge {
+  margin-top: 24px; padding: 12px 28px;
+  background: #991b1b; color: #fcd34d;
+  border-radius: 8px; font-weight: 600; font-size: 15px;
+}
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<section class="after-hero" id="below">
+  <h2>✅ 스크롤 트랩이 정상 해제되었습니다</h2>
+  <p>Hero 갤러리 애니메이션이 끝나면 이 영역으로 자연스럽게 스크롤됩니다.</p>
+  <div class="after-badge">승가의 목소리 — 최신 소식 섹션이 여기에 위치합니다</div>
+</section>
+
+<script>
+const { useState, useEffect, useRef, useCallback, memo, createElement: h } = React;
+
+const SCROLL_SENS = 1.8;
+const LERP = 0.08;
+const CARD_W = 126;
+const CARD_H = 96;
+const MAX_SCROLL = 1000;
+
+const FOLDERS = [
+  { id:"about",       icon:"🏛️", title:"승가회 소개",  bg:"#115e59", ac:"#fcd34d" },
+  { id:"news",        icon:"📢", title:"소식",          bg:"#991b1b", ac:"#fde68a" },
+  { id:"activities",  icon:"✊", title:"실천 활동",    bg:"#064e3b", ac:"#fcd34d" },
+  { id:"participate", icon:"🤝", title:"연대와 참여",  bg:"#881337", ac:"#fef08a" },
+  { id:"archive",     icon:"📜", title:"아카이브",      bg:"#164e63", ac:"#fcd34d" },
+  { id:"slides",      icon:"📊", title:"슬라이드",      bg:"#7c2d12", ac:"#fde68a" },
+  { id:"quiz",        icon:"❓", title:"퀴즈",          bg:"#312e81", ac:"#fcd34d" },
+  { id:"qna",         icon:"💬", title:"Q&A",           bg:"#44403c", ac:"#fef08a" },
+  { id:"flashcards",  icon:"🃏", title:"플래시카드",    bg:"#115e59", ac:"#fde68a" },
+  { id:"mindmaps",    icon:"🧠", title:"마인드맵",      bg:"#991b1b", ac:"#fcd34d" },
+  { id:"infographic", icon:"📈", title:"인포그래픽",    bg:"#064e3b", ac:"#fef08a" },
+  { id:"reports",     icon:"📋", title:"보고서",        bg:"#881337", ac:"#fcd34d" },
+  { id:"data-tables", icon:"📉", title:"데이터 표",    bg:"#164e63", ac:"#fde68a" },
+  { id:"donate",      icon:"🙏", title:"후원하기",      bg:"#7c2d12", ac:"#fcd34d" },
+  { id:"register",    icon:"☸️", title:"회원가입",      bg:"#312e81", ac:"#fef08a" },
+  { id:"contact",     icon:"📞", title:"문의",          bg:"#44403c", ac:"#fcd34d" },
+];
+const TOTAL = FOLDERS.length;
+
+function ease(t) {
+  return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+}
+
+/* ═══════ FOLDER CARD ═══════ */
+const FolderCard = memo(function FolderCard({ folder, x, y, rotation, scale, index }) {
+  const [flipped, setFlipped] = useState(false);
+
+  return h("div", {
+    style: {
+      position:"absolute", width:CARD_W, height:CARD_H,
+      left:"50%", top:"50%",
+      transform:`translate(-50%,-50%) translate(${x}px,${y}px) rotate(${rotation}deg) scale(${scale})`,
+      zIndex: TOTAL + index,
+      perspective: 700,
+    },
+    onMouseEnter: () => setFlipped(true),
+    onMouseLeave: () => setFlipped(false),
+  },
+    h("div", {
+      style: {
+        position:"relative", width:"100%", height:"100%",
+        transformStyle:"preserve-3d",
+        transition:"transform 0.5s cubic-bezier(0.4,0,0.2,1)",
+        transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+        cursor:"pointer",
+      },
+    },
+      /* ═══ 앞면 — 폴더 아이콘 + 제목 ═══ */
+      h("div", {
+        style: {
+          position:"absolute", inset:0,
+          backfaceVisibility:"hidden",
+          borderRadius:14,
+          background:"#fff",
+          border:"1.5px solid rgba(180,160,120,0.18)",
+          boxShadow:"0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
+          display:"flex", flexDirection:"column",
+          alignItems:"center", justifyContent:"center",
+          gap:6, overflow:"hidden",
+        },
+      },
+        /* 상단 컬러 탭 */
+        h("div", {
+          style: {
+            position:"absolute", top:0, left:12, right:12,
+            height:4, borderRadius:"0 0 4px 4px",
+            background: folder.bg,
+          },
+        }),
+        /* 아이콘 */
+        h("span", {
+          style:{ fontSize:28, lineHeight:1, marginTop:2 },
+        }, folder.icon),
+        /* 제목 */
+        h("span", {
+          style:{
+            fontSize:11, fontWeight:700,
+            color:"#2C2210",
+            letterSpacing:"0.02em",
+            textAlign:"center", lineHeight:1.3,
+            padding:"0 8px",
+            fontFamily:"'Noto Sans KR',sans-serif",
+          },
+        }, folder.title)
+      ),
+
+      /* ═══ 뒷면 — 단청 컬러 ═══ */
+      h("div", {
+        style: {
+          position:"absolute", inset:0,
+          backfaceVisibility:"hidden",
+          transform:"rotateY(180deg)",
+          borderRadius:14,
+          background: folder.bg,
+          boxShadow:"0 4px 20px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.08)",
+          display:"flex", flexDirection:"column",
+          alignItems:"center", justifyContent:"center",
+          gap:4,
+        },
+      },
+        h("span", {
+          style:{
+            position:"absolute", top:6, right:10,
+            opacity:0.12, color:"#fff",
+            fontSize:26, fontFamily:"serif",
+          },
+        }, "卍"),
+        h("span", {
+          style:{
+            fontSize:12, fontWeight:800,
+            color: folder.ac,
+            letterSpacing:"0.1em",
+          },
+        }, "자세히 보기"),
+        h("span", {
+          style:{ fontSize:10, color:"rgba(255,255,255,0.4)", marginTop:2 },
+        }, "→ " + folder.title)
+      )
+    )
+  );
+});
+
+/* ═══════ MAIN ═══════ */
+function TempleScrollHero() {
+  const ref = useRef(null);
+  const vS = useRef(0);
+  const aS = useRef(0);
+  const raf = useRef(0);
+  const tY = useRef(0);
+
+  const [pos, setPos] = useState([]);
+  const [prog, setProg] = useState(0);
+  const [sz, setSz] = useState({ w:0, h:0 });
+
+  const getR = useCallback((base, cw, ch) => {
+    const m = Math.min(cw, ch);
+    const s = m < 640 ? 0.38 : m < 1024 ? 0.34 : 0.30;
+    return Math.min(base, m * s);
+  }, []);
+
+  const calc = useCallback((p, cw, ch) => {
+    const t = ease(Math.min(1, Math.max(0, p)));
+    const cR = getR(300, cw, ch);
+    const aR = getR(360, cw, ch);
+    const off = ch * 0.06;
+    return FOLDERS.map((_, i) => {
+      const ang = (i/TOTAL)*Math.PI*2 - Math.PI/2;
+      const cx = Math.cos(ang)*cR, cy = Math.sin(ang)*cR;
+      const cr = (ang*180)/Math.PI + 90;
+      const aa = Math.PI - (i/(TOTAL-1))*Math.PI;
+      const ax = Math.cos(aa)*aR, ay = -Math.sin(aa)*aR + off;
+      const ar = ((aa-Math.PI/2)*180)/Math.PI * 0.25;
+      return {
+        x: cx+(ax-cx)*t, y: cy+(ay-cy)*t,
+        rotation: cr+(ar-cr)*t, scale: 1+t*0.04,
+      };
+    });
+  }, [getR]);
+
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const up = () => { const r = el.getBoundingClientRect(); setSz({ w:r.width, h:r.height }); };
+    up();
+    const ro = new ResizeObserver(up); ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!sz.w) return;
+    let on = true;
+    const loop = () => {
+      if (!on) return;
+      aS.current += (vS.current - aS.current) * LERP;
+      const p = Math.min(1, Math.max(0, aS.current/MAX_SCROLL));
+      setProg(p);
+      setPos(calc(p, sz.w, sz.h));
+      raf.current = requestAnimationFrame(loop);
+    };
+    raf.current = requestAnimationFrame(loop);
+    return () => { on=false; cancelAnimationFrame(raf.current); };
+  }, [sz, calc]);
+
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const fn = (e) => {
+      const c = vS.current, d = e.deltaY;
+      if (d>0 && c>=MAX_SCROLL) return;
+      if (d<0 && c<=0) return;
+      e.preventDefault();
+      vS.current = Math.min(MAX_SCROLL, Math.max(0, c+d*SCROLL_SENS));
+    };
+    el.addEventListener("wheel", fn, {passive:false});
+    return () => el.removeEventListener("wheel", fn);
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const s = (e) => { tY.current = e.touches[0].clientY; };
+    const m = (e) => {
+      const c = vS.current;
+      const d = tY.current - e.touches[0].clientY;
+      tY.current = e.touches[0].clientY;
+      if (d>0 && c>=MAX_SCROLL) return;
+      if (d<0 && c<=0) return;
+      e.preventDefault();
+      vS.current = Math.min(MAX_SCROLL, Math.max(0, c+d*SCROLL_SENS*2));
+    };
+    el.addEventListener("touchstart", s, {passive:true});
+    el.addEventListener("touchmove", m, {passive:false});
+    return () => { el.removeEventListener("touchstart",s); el.removeEventListener("touchmove",m); };
+  }, []);
+
+  const introOp = Math.max(0, 1-prog*3);
+  const arcOp = Math.max(0, (prog-0.7)/0.3);
+  const done = prog > 0.95;
+
+  return h("section", {
+    ref,
+    className:"hero-bg",
+    style:{
+      position:"relative", width:"100%", height:"100vh",
+      overflow:"hidden", userSelect:"none",
+      touchAction: vS.current < MAX_SCROLL ? "none" : "auto",
+    },
+  },
+    h("div",{className:"noise-overlay"}),
+
+    h("div",{
+      style:{
+        position:"absolute", top:"50%", left:"50%",
+        transform:"translate(-50%,-50%)", pointerEvents:"none",
+        width:Math.min(sz.w*0.65,560), height:Math.min(sz.w*0.65,560),
+        borderRadius:"50%",
+        border:"1px solid rgba(180,160,120,0.07)",
+        opacity:1-prog,
+      },
+    }),
+
+    /* Intro */
+    h("div",{
+      style:{
+        position:"absolute", inset:0, zIndex:10,
+        display:"flex", flexDirection:"column",
+        alignItems:"center", justifyContent:"center",
+        pointerEvents:"none", opacity:introOp,
+      },
+    },
+      h("h1",{
+        style:{
+          fontFamily:"'Noto Serif KR','Batang',serif",
+          fontSize:"clamp(26px,5vw,54px)",
+          fontWeight:900, letterSpacing:"-0.02em",
+          color:"#2C2210",
+          textShadow:"0 1px 3px rgba(255,255,255,0.5)",
+          textAlign:"center", padding:"0 20px", lineHeight:1.25,
+        },
+      }, "실천으로 밝히는", h("br"), "정토사회의 길"),
+      h("p",{
+        style:{
+          marginTop:20, fontSize:13,
+          letterSpacing:"0.25em", textTransform:"uppercase",
+          fontWeight:500, color:"#8B7355",
+        },
+      }, "스크롤하여 탐색하세요"),
+      h("div",{className:"anim-bounce", style:{marginTop:28}},
+        h("svg",{
+          width:22, height:22, viewBox:"0 0 24 24",
+          fill:"none", stroke:"#8B7355", strokeWidth:2, strokeLinecap:"round",
+        }, h("path",{d:"M12 5v14M5 12l7 7 7-7"}))
+      )
+    ),
+
+    /* Arc */
+    h("div",{
+      style:{
+        position:"absolute", inset:0, zIndex:10,
+        display:"flex", flexDirection:"column",
+        alignItems:"center", justifyContent:"center",
+        paddingTop:sz.h*0.1,
+        pointerEvents:"none", opacity:arcOp,
+      },
+    },
+      h("h2",{
+        style:{
+          fontFamily:"'Noto Serif KR',serif",
+          fontSize:"clamp(20px,3.5vw,38px)",
+          fontWeight:700, color:"#1A1A1A",
+          textAlign:"center", padding:"0 20px",
+        },
+      }, "수행과 실천, 30년의 여정"),
+      h("p",{
+        style:{ marginTop:10, fontSize:14, color:"#6B5B47", textAlign:"center" },
+      }, "1992년 창립부터 2026년 현재까지, 한국 불교 개혁의 중심"),
+      done && h("div",{
+        className:"anim-pulse",
+        style:{ marginTop:28, pointerEvents:"auto" },
+      },
+        h("button",{
+          onClick:()=>{
+            const next = ref.current?.nextElementSibling;
+            if(next) next.scrollIntoView({behavior:"smooth"});
+          },
+          style:{
+            padding:"10px 28px",
+            background:"rgba(153,27,27,0.9)",
+            color:"#FDEABC", fontSize:14, fontWeight:600,
+            borderRadius:9999, border:"none", cursor:"pointer",
+            boxShadow:"0 4px 16px rgba(0,0,0,.1)",
+          },
+        }, "아래로 탐색 ↓")
+      )
+    ),
+
+    /* Progress */
+    h("div",{
+      style:{
+        position:"absolute", left:16, top:"50%",
+        transform:"translateY(-50%)", zIndex:20,
+        display:"flex", flexDirection:"column",
+        alignItems:"center", gap:8,
+      },
+    },
+      h("div",{className:"scroll-track"},
+        h("div",{className:"scroll-fill", style:{height:`${prog*100}%`}})
+      ),
+      h("span",{
+        style:{fontSize:10, fontFamily:"monospace", color:"#8B7355"},
+      }, `${Math.round(prog*100)}%`)
+    ),
+
+    /* Cards */
+    h("div",{style:{position:"absolute", inset:0, zIndex:5}},
+      pos.map((p,i) =>
+        h(FolderCard, {
+          key:FOLDERS[i].id,
+          folder:FOLDERS[i],
+          x:p.x, y:p.y,
+          rotation:p.rotation, scale:p.scale,
+          index:i,
+        })
+      )
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(TempleScrollHero));
+</script>
+</body>
+</html>
