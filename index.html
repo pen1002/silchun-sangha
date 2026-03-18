@@ -1176,27 +1176,22 @@ ul, ol { list-style: none; }
 .morph-card {
   position: absolute;
   left: 50%; top: 50%;
-  perspective: 700px;
+  cursor: pointer;
 }
 .morph-card__inner {
   position: relative; width: 100%; height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
-  cursor: pointer;
-}
-.morph-card:hover .morph-card__inner { transform: rotateY(180deg); }
-.morph-card__front, .morph-card__back {
-  position: absolute; inset: 0;
-  backface-visibility: hidden;
   border-radius: 14px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-}
-.morph-card__front {
   background: #fff;
   border: 1.5px solid rgba(180,160,120,0.18);
   box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   gap: 6px; overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.morph-card:hover .morph-card__inner {
+  transform: scale(1.08);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
 }
 .morph-card__tab {
   position: absolute; top: 0; left: 12px; right: 12px;
@@ -1209,21 +1204,30 @@ ul, ol { list-style: none; }
   text-align: center; line-height: 1.3;
   padding: 0 8px; font-family: var(--font-sans);
 }
-.morph-card__back {
-  transform: rotateY(180deg);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.08);
+/* Hover overlay (replaces 3D flip) */
+.morph-card__overlay {
+  position: absolute; inset: 0;
+  border-radius: 14px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   gap: 4px;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
 }
-.morph-card__back-wan {
+.morph-card:hover .morph-card__overlay {
+  opacity: 1;
+}
+.morph-card__overlay-wan {
   position: absolute; top: 6px; right: 10px;
   opacity: 0.12; color: #fff;
   font-size: 26px; font-family: serif;
 }
-.morph-card__back-label {
+.morph-card__overlay-label {
   font-size: 12px; font-weight: 800;
   letter-spacing: 0.1em;
 }
-.morph-card__back-sub {
+.morph-card__overlay-sub {
   font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px;
 }
 
@@ -1788,15 +1792,13 @@ ul, ol { list-style: none; }
       card.setAttribute('aria-label', f.title + ' 바로가기');
       card.innerHTML = `
         <div class="morph-card__inner">
-          <div class="morph-card__front">
-            <div class="morph-card__tab" style="background:${f.bg}"></div>
-            <span class="morph-card__icon">${f.icon}</span>
-            <span class="morph-card__label">${f.title}</span>
-          </div>
-          <div class="morph-card__back" style="background:${f.bg}">
-            <span class="morph-card__back-wan">卍</span>
-            <span class="morph-card__back-label" style="color:${f.ac}">자세히 보기</span>
-            <span class="morph-card__back-sub">→ ${f.title}</span>
+          <div class="morph-card__tab" style="background:${f.bg}"></div>
+          <span class="morph-card__icon">${f.icon}</span>
+          <span class="morph-card__label">${f.title}</span>
+          <div class="morph-card__overlay" style="background:${f.bg}">
+            <span class="morph-card__overlay-wan">卍</span>
+            <span class="morph-card__overlay-label" style="color:${f.ac}">자세히 보기</span>
+            <span class="morph-card__overlay-sub">→ ${f.title}</span>
           </div>
         </div>`;
       // ★ 클릭 시 해당 섹션으로 스크롤 이동
