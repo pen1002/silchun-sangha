@@ -911,12 +911,18 @@ ul, ol { list-style: none; }
   font-size: 12px;
   font-weight: 700;
   border-radius: 3px;
+  position: relative;
+  z-index: 2;
 }
 .ticker-content {
   display: flex;
   gap: 48px;
   animation: tickerScroll 30s linear infinite;
   white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 .ticker-content span {
   color: rgba(255,255,255,.7);
@@ -1243,9 +1249,9 @@ ul, ol { list-style: none; }
   <div class="container">
     <span class="top-bar__slogan">수행과 실천, 정토사회를 향하여</span>
     <nav aria-label="유틸리티 메뉴">
-      <a href="#login">로그인</a>
-      <a href="#register">회원가입</a>
-      <a href="#sitemap">사이트맵</a>
+      <a href="javascript:void(0)" onclick="document.getElementById('modalLogin').style.display='flex'">로그인</a>
+      <a href="javascript:void(0)" onclick="document.getElementById('modalRegister').style.display='flex'">회원가입</a>
+      <a href="javascript:void(0)" onclick="document.getElementById('modalSitemap').style.display='flex'">사이트맵</a>
     </nav>
   </div>
 </div>
@@ -1684,10 +1690,9 @@ ul, ol { list-style: none; }
       <div class="footer-brand">
         <h3 class="footer-brand__name">실천불교전국승가회</h3>
         <p class="footer-brand__info">
-          주소: 서울특별시 (사무국 소재지)<br>
-          전화: 02-000-0000 &nbsp;|&nbsp; 팩스: 02-000-0001<br>
-          이메일: info@silchun.org<br>
-          고유번호: 000-00-00000
+          주소: <a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%82%BC%EB%B4%89%EB%A1%9C%2081" target="_blank" rel="noopener" style="color:rgba(255,255,255,.7);text-decoration:underline;">서울시 종로구 삼봉로 81 두산위브 파빌리온 1208호</a><br>
+          전화: <a href="tel:02-738-7706" style="color:rgba(255,255,255,.7);">02-738-7706</a> &nbsp;|&nbsp; 팩스: 02-3675-7706<br>
+          이메일: <a href="mailto:slichun94@gmail.com" style="color:rgba(255,255,255,.7);">slichun94@gmail.com</a>
         </p>
       </div>
       <nav class="footer-col" aria-label="승가회 소개">
@@ -1722,6 +1727,134 @@ ul, ol { list-style: none; }
     </div>
   </div>
 </footer>
+
+<!-- ═══════════ MODALS ═══════════ -->
+<style>
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 12px; padding: 36px 32px;
+  max-width: 440px; width: 100%; position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  max-height: 85vh; overflow-y: auto;
+}
+.modal-box h2 {
+  font-family: var(--font-serif); font-size: 22px; font-weight: 700;
+  margin-bottom: 20px; color: var(--ink-black);
+}
+.modal-close {
+  position: absolute; top: 14px; right: 16px;
+  background: none; border: none; font-size: 22px; cursor: pointer;
+  color: var(--stone-gray); line-height: 1;
+}
+.modal-close:hover { color: var(--ink-black); }
+.modal-input {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--mist-gray);
+  border-radius: 6px; font-size: 14px; font-family: var(--font-sans);
+  margin-bottom: 12px; outline: none; transition: border-color .2s;
+}
+.modal-input:focus { border-color: var(--dancheong-red); }
+.modal-submit {
+  width: 100%; padding: 12px; background: var(--dancheong-red); color: #fff;
+  border: none; border-radius: 6px; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: background .2s; margin-top: 4px;
+}
+.modal-submit:hover { background: #6E1D00; }
+.modal-note { font-size: 12px; color: var(--stone-gray); margin-top: 12px; text-align: center; }
+.sitemap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.sitemap-group h3 {
+  font-size: 14px; font-weight: 700; color: var(--dancheong-red);
+  margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--mist-gray);
+}
+.sitemap-group a {
+  display: block; font-size: 13px; color: var(--warm-black);
+  padding: 4px 0; transition: color .2s;
+}
+.sitemap-group a:hover { color: var(--dancheong-red); }
+</style>
+
+<!-- 로그인 모달 -->
+<div class="modal-overlay" id="modalLogin" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal-box">
+    <button class="modal-close" onclick="this.closest('.modal-overlay').style.display='none'">&times;</button>
+    <h2>로그인</h2>
+    <input class="modal-input" type="email" placeholder="이메일 주소" aria-label="이메일">
+    <input class="modal-input" type="password" placeholder="비밀번호" aria-label="비밀번호">
+    <button class="modal-submit" onclick="alert('로그인 기능은 준비 중입니다.')">로그인</button>
+    <p class="modal-note">아직 회원이 아니신가요? <a href="javascript:void(0)" style="color:var(--dancheong-red);font-weight:600;" onclick="document.getElementById('modalLogin').style.display='none';document.getElementById('modalRegister').style.display='flex'">회원가입</a></p>
+  </div>
+</div>
+
+<!-- 회원가입 모달 -->
+<div class="modal-overlay" id="modalRegister" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal-box">
+    <button class="modal-close" onclick="this.closest('.modal-overlay').style.display='none'">&times;</button>
+    <h2>회원가입</h2>
+    <input class="modal-input" type="text" placeholder="이름 (법명)" aria-label="이름">
+    <input class="modal-input" type="email" placeholder="이메일 주소" aria-label="이메일">
+    <input class="modal-input" type="tel" placeholder="전화번호" aria-label="전화번호">
+    <input class="modal-input" type="password" placeholder="비밀번호" aria-label="비밀번호">
+    <input class="modal-input" type="password" placeholder="비밀번호 확인" aria-label="비밀번호 확인">
+    <button class="modal-submit" onclick="alert('회원가입 기능은 준비 중입니다.')">가입신청</button>
+    <p class="modal-note">이미 회원이신가요? <a href="javascript:void(0)" style="color:var(--dancheong-red);font-weight:600;" onclick="document.getElementById('modalRegister').style.display='none';document.getElementById('modalLogin').style.display='flex'">로그인</a></p>
+  </div>
+</div>
+
+<!-- 사이트맵 모달 -->
+<div class="modal-overlay" id="modalSitemap" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal-box" style="max-width:560px;">
+    <button class="modal-close" onclick="this.closest('.modal-overlay').style.display='none'">&times;</button>
+    <h2>사이트맵</h2>
+    <div class="sitemap-grid">
+      <div class="sitemap-group">
+        <h3>승가회 소개</h3>
+        <a href="#about">연혁 (타임라인)</a>
+        <a href="#about">설립 취지</a>
+        <a href="#about">역대 대표</a>
+        <a href="#about">조직도</a>
+      </div>
+      <div class="sitemap-group">
+        <h3>소식</h3>
+        <a href="#news">성명서</a>
+        <a href="#news">보도자료</a>
+        <a href="#news">회원 소식</a>
+      </div>
+      <div class="sitemap-group">
+        <h3>실천 활동</h3>
+        <a href="#activities">평화·반전</a>
+        <a href="#activities">탈핵·환경</a>
+        <a href="#activities">역사·인권</a>
+      </div>
+      <div class="sitemap-group">
+        <h3>연대와 참여</h3>
+        <a href="#participate">회원가입</a>
+        <a href="#participate">후원</a>
+        <a href="#participate">봉사활동</a>
+      </div>
+      <div class="sitemap-group">
+        <h3>아카이브</h3>
+        <a href="#archive">성명서·결의문</a>
+        <a href="#archive">사진자료</a>
+        <a href="#archive">역사기록</a>
+      </div>
+      <div class="sitemap-group">
+        <h3>스튜디오</h3>
+        <a href="#studio">슬라이드</a>
+        <a href="#studio">퀴즈 / Q&A</a>
+        <a href="#studio">인포그래픽</a>
+      </div>
+    </div>
+    <p class="modal-note" style="margin-top:20px;">
+      문의: <a href="tel:02-738-7706" style="color:var(--dancheong-red);">02-738-7706</a> | 
+      <a href="mailto:slichun94@gmail.com" style="color:var(--dancheong-red);">slichun94@gmail.com</a>
+    </p>
+  </div>
+</div>
 
 <!-- ═══════════ JavaScript ═══════════ -->
 <script>
@@ -1980,13 +2113,90 @@ ul, ol { list-style: none; }
   }, { threshold: 0.2 });
   timelineItems.forEach(item => observer.observe(item));
 
-  // ── Archive Tag Filter ──
-  const archiveTags = document.querySelectorAll('.archive-tag');
-  archiveTags.forEach(tag => {
-    tag.addEventListener('click', () => {
-      archiveTags.forEach(t => t.classList.remove('active'));
-      tag.classList.add('active');
+  // ── Archive Search & Filter ──
+  (function() {
+    const searchInput = document.querySelector('.archive-search-bar input');
+    const searchBtn = document.querySelector('.archive-search-btn');
+    const tags = document.querySelectorAll('.archive-tag');
+    const items = document.querySelectorAll('.archive-item');
+
+    // Each item stores its type, title, date for filtering
+    const itemData = Array.from(items).map(el => ({
+      el: el,
+      type: (el.querySelector('.archive-item__type')?.textContent || '').trim(),
+      title: (el.querySelector('.archive-item__title')?.textContent || '').trim(),
+      date: (el.querySelector('.archive-item__date')?.textContent || '').trim(),
+    }));
+
+    // Tag→type mapping
+    const tagMap = {
+      '전체': null,
+      '성명서': '성명서',
+      '결의문': '결의문',
+      '보도자료': '보도자료',
+      '사진': '사진자료',
+      '1992~1999': 'year:1992-1999',
+      '2000~2009': 'year:2000-2009',
+      '2010~2019': 'year:2010-2019',
+      '2020~현재': 'year:2020-2099',
+    };
+
+    let activeTag = '전체';
+    let searchQuery = '';
+
+    function filterItems() {
+      itemData.forEach(d => {
+        let show = true;
+
+        // Tag filter
+        if (activeTag !== '전체') {
+          const mapped = tagMap[activeTag];
+          if (mapped && mapped.startsWith('year:')) {
+            var range = mapped.replace('year:','').split('-');
+            var y = parseInt(d.date.substring(0,4));
+            show = y >= parseInt(range[0]) && y <= parseInt(range[1]);
+          } else if (mapped) {
+            show = d.type === mapped;
+          }
+        }
+
+        // Search filter
+        if (show && searchQuery) {
+          var q = searchQuery.toLowerCase();
+          show = d.title.toLowerCase().includes(q) || d.type.toLowerCase().includes(q) || d.date.includes(q);
+        }
+
+        d.el.style.display = show ? '' : 'none';
+      });
+    }
+
+    // Tag click
+    tags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        tags.forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+        activeTag = tag.textContent.trim();
+        filterItems();
+      });
     });
+
+    // Search
+    function doSearch() {
+      searchQuery = searchInput.value.trim();
+      filterItems();
+    }
+    searchBtn.addEventListener('click', doSearch);
+    searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+    searchInput.addEventListener('input', () => {
+      if (!searchInput.value.trim()) { searchQuery = ''; filterItems(); }
+    });
+  })();
+
+  // ── Modal close on Escape ──
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+    }
   });
 
   // ── Smooth Scroll for anchor links ──
