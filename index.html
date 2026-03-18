@@ -1072,6 +1072,164 @@ ul, ol { list-style: none; }
   white-space: nowrap;
   border: 0;
 }
+
+/* ═══════════════════════════════════════════
+   SCROLL MORPH GALLERY HERO
+   ═══════════════════════════════════════════ */
+.morph-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(160deg, #FFFCF2 0%, #FFF8E1 40%, #FFF5D6 100%);
+  overflow: hidden;
+  user-select: none;
+}
+.morph-hero__noise {
+  position: absolute; inset: 0; opacity: 0.025; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.morph-hero__ink-circle {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); pointer-events: none;
+  border-radius: 50%;
+  border: 1px solid rgba(180,160,120,0.07);
+  transition: opacity 0.3s;
+}
+.morph-hero__intro {
+  position: absolute; inset: 0; z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  pointer-events: none; transition: opacity 0.1s;
+}
+.morph-hero__title {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 5vw, 54px);
+  font-weight: 900; letter-spacing: -0.02em;
+  color: #2C2210;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.5);
+  text-align: center; padding: 0 20px; line-height: 1.25;
+}
+.morph-hero__subtitle {
+  margin-top: 20px; font-size: 13px;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  font-weight: 500; color: #8B7355;
+}
+.morph-hero__arrow {
+  margin-top: 28px;
+  animation: morphBounce 2s infinite;
+}
+@keyframes morphBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+.morph-hero__arc-text {
+  position: absolute; inset: 0; z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  pointer-events: none; transition: opacity 0.1s;
+}
+.morph-hero__arc-title {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 3.5vw, 38px);
+  font-weight: 700; color: #1A1A1A;
+  text-align: center; padding: 0 20px;
+}
+.morph-hero__arc-desc {
+  margin-top: 10px; font-size: 14px;
+  color: #6B5B47; text-align: center;
+}
+.morph-hero__arc-btn {
+  margin-top: 28px; pointer-events: auto;
+  padding: 10px 28px;
+  background: rgba(139,37,0,0.9);
+  color: #FDEABC; font-size: 14px; font-weight: 600;
+  border-radius: 9999px; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+  animation: morphPulse 2s infinite;
+  transition: background 0.2s;
+}
+.morph-hero__arc-btn:hover { background: #6E1D00; }
+@keyframes morphPulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+
+.morph-hero__progress {
+  position: absolute; left: 16px; top: 50%;
+  transform: translateY(-50%); z-index: 20;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+}
+.morph-hero__progress-track {
+  width: 2px; height: 80px;
+  background: rgba(180,160,120,0.2);
+  border-radius: 99px; overflow: hidden;
+}
+.morph-hero__progress-fill {
+  width: 100%; height: 0%;
+  background: rgba(139,37,0,0.55);
+  border-radius: 99px;
+}
+.morph-hero__progress-pct {
+  font-size: 10px; font-family: monospace; color: #8B7355;
+}
+.morph-hero__cards {
+  position: absolute; inset: 0; z-index: 5;
+}
+
+/* Folder Card */
+.morph-card {
+  position: absolute;
+  left: 50%; top: 50%;
+  perspective: 700px;
+}
+.morph-card__inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  cursor: pointer;
+}
+.morph-card:hover .morph-card__inner { transform: rotateY(180deg); }
+.morph-card__front, .morph-card__back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: 14px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.morph-card__front {
+  background: #fff;
+  border: 1.5px solid rgba(180,160,120,0.18);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  gap: 6px; overflow: hidden;
+}
+.morph-card__tab {
+  position: absolute; top: 0; left: 12px; right: 12px;
+  height: 4px; border-radius: 0 0 4px 4px;
+}
+.morph-card__icon { font-size: 28px; line-height: 1; margin-top: 2px; }
+.morph-card__label {
+  font-size: 11px; font-weight: 700;
+  color: #2C2210; letter-spacing: 0.02em;
+  text-align: center; line-height: 1.3;
+  padding: 0 8px; font-family: var(--font-sans);
+}
+.morph-card__back {
+  transform: rotateY(180deg);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.08);
+  gap: 4px;
+}
+.morph-card__back-wan {
+  position: absolute; top: 6px; right: 10px;
+  opacity: 0.12; color: #fff;
+  font-size: 26px; font-family: serif;
+}
+.morph-card__back-label {
+  font-size: 12px; font-weight: 800;
+  letter-spacing: 0.1em;
+}
+.morph-card__back-sub {
+  font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .morph-hero__progress { display: none; }
+}
 </style>
 </head>
 <body>
@@ -1135,31 +1293,33 @@ ul, ol { list-style: none; }
 </div>
 
 <!-- ═══════════ HERO SECTION ═══════════ -->
-<section class="hero" id="home">
-  <div class="hero__slides">
-    <div class="hero__slide active" role="img" aria-label="1994년 종단개혁의 역사적 순간"></div>
-    <div class="hero__slide" role="img" aria-label="평화를 위한 연대 활동"></div>
-    <div class="hero__slide" role="img" aria-label="시민사회와 함께하는 실천"></div>
-  </div>
-  <div class="hero__content">
-    <p class="hero__eyebrow">지금, 승가는</p>
-    <h1 class="hero__title">
-      <em>실천</em>으로 밝히는<br>정토사회의 길
-    </h1>
-    <p class="hero__desc">
-      1992년 창립 이래, 불교 내 제반 모순과 한국 사회의 다양한 문제 해결을 위해 
-      깨달음의 사회화를 실천하는 승가 공동체입니다.
-    </p>
-    <div class="hero__actions">
-      <a href="#news" class="btn btn--primary">최신 성명서 보기 →</a>
-      <a href="#archive" class="btn btn--outline">아카이브 탐색</a>
+<!-- ═══════════ SCROLL MORPH GALLERY HERO ═══════════ -->
+<section class="morph-hero" id="home" aria-label="Scroll Morph Gallery Hero">
+  <!-- Noise texture -->
+  <div class="morph-hero__noise"></div>
+  <!-- Ink circle decoration -->
+  <div class="morph-hero__ink-circle" id="inkCircle"></div>
+  <!-- Intro text (circle state) -->
+  <div class="morph-hero__intro" id="morphIntro">
+    <h1 class="morph-hero__title">실천으로 밝히는<br>정토사회의 길</h1>
+    <p class="morph-hero__subtitle">스크롤하여 탐색하세요</p>
+    <div class="morph-hero__arrow">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8B7355" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     </div>
   </div>
-  <div class="hero__dots" role="tablist" aria-label="슬라이드 네비게이션">
-    <button class="hero__dot active" role="tab" aria-selected="true" aria-label="슬라이드 1"></button>
-    <button class="hero__dot" role="tab" aria-selected="false" aria-label="슬라이드 2"></button>
-    <button class="hero__dot" role="tab" aria-selected="false" aria-label="슬라이드 3"></button>
+  <!-- Arc complete text -->
+  <div class="morph-hero__arc-text" id="morphArcText">
+    <h2 class="morph-hero__arc-title">수행과 실천, 30년의 여정</h2>
+    <p class="morph-hero__arc-desc">1992년 창립부터 2026년 현재까지, 한국 불교 개혁의 중심</p>
+    <button class="morph-hero__arc-btn" id="morphScrollDown" style="display:none;">아래로 탐색 ↓</button>
   </div>
+  <!-- Progress indicator -->
+  <div class="morph-hero__progress" id="morphProgress">
+    <div class="morph-hero__progress-track"><div class="morph-hero__progress-fill" id="morphFill"></div></div>
+    <span class="morph-hero__progress-pct" id="morphPct">0%</span>
+  </div>
+  <!-- 16 Folder Cards Container -->
+  <div class="morph-hero__cards" id="morphCards"></div>
 </section>
 
 <!-- ═══════════ "지금, 승가는" 최신 소식 ═══════════ -->
@@ -1579,28 +1739,163 @@ ul, ol { list-style: none; }
     toggle.setAttribute('aria-expanded', open);
   });
 
-  // ── Hero Slide Auto-play ──
-  const slides = document.querySelectorAll('.hero__slide');
-  const dots = document.querySelectorAll('.hero__dot');
-  let current = 0;
+  // ── Scroll Morph Gallery Hero ──
+  (function initMorphHero() {
+    const FOLDERS = [
+      { id:"about",       icon:"🏛️", title:"승가회 소개",  bg:"#115e59", ac:"#fcd34d" },
+      { id:"news",        icon:"📢", title:"소식",          bg:"#991b1b", ac:"#fde68a" },
+      { id:"activities",  icon:"✊", title:"실천 활동",    bg:"#064e3b", ac:"#fcd34d" },
+      { id:"participate", icon:"🤝", title:"연대와 참여",  bg:"#881337", ac:"#fef08a" },
+      { id:"archive",     icon:"📜", title:"아카이브",      bg:"#164e63", ac:"#fcd34d" },
+      { id:"slides",      icon:"📊", title:"슬라이드",      bg:"#7c2d12", ac:"#fde68a" },
+      { id:"quiz",        icon:"❓", title:"퀴즈",          bg:"#312e81", ac:"#fcd34d" },
+      { id:"qna",         icon:"💬", title:"Q&A",           bg:"#44403c", ac:"#fef08a" },
+      { id:"flashcards",  icon:"🃏", title:"플래시카드",    bg:"#115e59", ac:"#fde68a" },
+      { id:"mindmaps",    icon:"🧠", title:"마인드맵",      bg:"#991b1b", ac:"#fcd34d" },
+      { id:"infographic", icon:"📈", title:"인포그래픽",    bg:"#064e3b", ac:"#fef08a" },
+      { id:"reports",     icon:"📋", title:"보고서",        bg:"#881337", ac:"#fcd34d" },
+      { id:"data-tables", icon:"📉", title:"데이터 표",    bg:"#164e63", ac:"#fde68a" },
+      { id:"donate",      icon:"🙏", title:"후원하기",      bg:"#7c2d12", ac:"#fcd34d" },
+      { id:"register",    icon:"☸️", title:"회원가입",      bg:"#312e81", ac:"#fef08a" },
+      { id:"contact",     icon:"📞", title:"문의",          bg:"#44403c", ac:"#fcd34d" },
+    ];
+    const TOTAL = FOLDERS.length;
+    const CARD_W = 126, CARD_H = 96;
+    const SCROLL_SENS = 1.8, LERP = 0.08, MAX_SCROLL = 1000;
 
-  function goToSlide(i) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    dots[current].setAttribute('aria-selected', 'false');
-    current = i;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-    dots[current].setAttribute('aria-selected', 'true');
-  }
+    const hero = document.querySelector('.morph-hero');
+    const cardsContainer = document.getElementById('morphCards');
+    const introEl = document.getElementById('morphIntro');
+    const arcTextEl = document.getElementById('morphArcText');
+    const inkCircle = document.getElementById('inkCircle');
+    const fillEl = document.getElementById('morphFill');
+    const pctEl = document.getElementById('morphPct');
+    const scrollBtn = document.getElementById('morphScrollDown');
 
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => goToSlide(i));
-  });
+    if (!hero || !cardsContainer) return;
 
-  setInterval(() => {
-    goToSlide((current + 1) % slides.length);
-  }, 5000);
+    let vScroll = 0, aScroll = 0, touchY = 0;
+    let cw = hero.offsetWidth, ch = hero.offsetHeight;
+
+    // Build card DOM
+    const cardEls = FOLDERS.map((f, i) => {
+      const card = document.createElement('div');
+      card.className = 'morph-card';
+      card.style.width = CARD_W + 'px';
+      card.style.height = CARD_H + 'px';
+      card.innerHTML = `
+        <div class="morph-card__inner">
+          <div class="morph-card__front">
+            <div class="morph-card__tab" style="background:${f.bg}"></div>
+            <span class="morph-card__icon">${f.icon}</span>
+            <span class="morph-card__label">${f.title}</span>
+          </div>
+          <div class="morph-card__back" style="background:${f.bg}">
+            <span class="morph-card__back-wan">卍</span>
+            <span class="morph-card__back-label" style="color:${f.ac}">자세히 보기</span>
+            <span class="morph-card__back-sub">→ ${f.title}</span>
+          </div>
+        </div>`;
+      cardsContainer.appendChild(card);
+      return card;
+    });
+
+    function ease(t) {
+      return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3) / 2;
+    }
+
+    function getR(base) {
+      var m = Math.min(cw, ch);
+      var s = m < 640 ? 0.38 : m < 1024 ? 0.34 : 0.30;
+      return Math.min(base, m * s);
+    }
+
+    function updatePositions(progress) {
+      var t = ease(Math.min(1, Math.max(0, progress)));
+      var cR = getR(300), aR = getR(360), off = ch * 0.06;
+
+      for (var i = 0; i < TOTAL; i++) {
+        var ang = (i / TOTAL) * Math.PI * 2 - Math.PI / 2;
+        var cx = Math.cos(ang) * cR, cy = Math.sin(ang) * cR;
+        var cr = (ang * 180) / Math.PI + 90;
+        var aa = Math.PI - (i / (TOTAL - 1)) * Math.PI;
+        var ax = Math.cos(aa) * aR, ay = -Math.sin(aa) * aR + off;
+        var ar = ((aa - Math.PI/2) * 180) / Math.PI * 0.25;
+
+        var x = cx + (ax - cx) * t;
+        var y = cy + (ay - cy) * t;
+        var rot = cr + (ar - cr) * t;
+        var sc = 1 + t * 0.04;
+
+        cardEls[i].style.transform =
+          'translate(-50%,-50%) translate(' + x + 'px,' + y + 'px) rotate(' + rot + 'deg) scale(' + sc + ')';
+        cardEls[i].style.zIndex = TOTAL + i;
+      }
+
+      // Update UI
+      var introOp = Math.max(0, 1 - progress * 3);
+      var arcOp = Math.max(0, (progress - 0.7) / 0.3);
+      introEl.style.opacity = introOp;
+      arcTextEl.style.opacity = arcOp;
+      inkCircle.style.opacity = 1 - progress;
+      fillEl.style.height = (progress * 100) + '%';
+      pctEl.textContent = Math.round(progress * 100) + '%';
+      scrollBtn.style.display = progress > 0.95 ? 'block' : 'none';
+    }
+
+    // Resize
+    function onResize() {
+      cw = hero.offsetWidth; ch = hero.offsetHeight;
+      var sz = Math.min(cw * 0.65, 560);
+      inkCircle.style.width = sz + 'px';
+      inkCircle.style.height = sz + 'px';
+      arcTextEl.style.paddingTop = (ch * 0.1) + 'px';
+    }
+    window.addEventListener('resize', onResize);
+    onResize();
+
+    // rAF loop
+    var running = true;
+    function loop() {
+      if (!running) return;
+      aScroll += (vScroll - aScroll) * LERP;
+      var progress = Math.min(1, Math.max(0, aScroll / MAX_SCROLL));
+      updatePositions(progress);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    // Wheel — ★ 스크롤 트랩 해제
+    hero.addEventListener('wheel', function(e) {
+      var d = e.deltaY;
+      if (d > 0 && vScroll >= MAX_SCROLL) return;
+      if (d < 0 && vScroll <= 0) return;
+      e.preventDefault();
+      vScroll = Math.min(MAX_SCROLL, Math.max(0, vScroll + d * SCROLL_SENS));
+    }, { passive: false });
+
+    // Touch — ★ 스크롤 트랩 해제
+    hero.addEventListener('touchstart', function(e) {
+      touchY = e.touches[0].clientY;
+    }, { passive: true });
+    hero.addEventListener('touchmove', function(e) {
+      var d = touchY - e.touches[0].clientY;
+      touchY = e.touches[0].clientY;
+      if (d > 0 && vScroll >= MAX_SCROLL) return;
+      if (d < 0 && vScroll <= 0) return;
+      e.preventDefault();
+      vScroll = Math.min(MAX_SCROLL, Math.max(0, vScroll + d * SCROLL_SENS * 2));
+    }, { passive: false });
+
+    // Scroll down button
+    scrollBtn.addEventListener('click', function() {
+      var next = hero.nextElementSibling;
+      if (next) next.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Initial render
+    updatePositions(0);
+  })();
 
   // ── Timeline Scroll Animation ──
   const timelineItems = document.querySelectorAll('.timeline-item__content');
