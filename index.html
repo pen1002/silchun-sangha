@@ -1832,24 +1832,68 @@ ul, ol { list-style: none; }
 
     function updatePositions(progress) {
       var t = ease(Math.min(1, Math.max(0, progress)));
-      var cR = getR(300), aR = getR(360), off = ch * 0.06;
+      var isMobile = cw < 768;
 
-      for (var i = 0; i < TOTAL; i++) {
-        var ang = (i / TOTAL) * Math.PI * 2 - Math.PI / 2;
-        var cx = Math.cos(ang) * cR, cy = Math.sin(ang) * cR;
-        var cr = (ang * 180) / Math.PI + 90;
-        var aa = Math.PI - (i / (TOTAL - 1)) * Math.PI;
-        var ax = Math.cos(aa) * aR, ay = -Math.sin(aa) * aR + off;
-        var ar = ((aa - Math.PI/2) * 180) / Math.PI * 0.25;
+      if (isMobile) {
+        // ═══ MOBILE: 원형 → 4열×4행 그리드 전환 ═══
+        var cols = 4;
+        var gap = 8;
+        var cardTotalW = cols * CARD_W + (cols - 1) * gap;
+        var scaleFactor = Math.min(1, (cw - 32) / cardTotalW); // 양쪽 16px 패딩
+        var actualW = CARD_W * scaleFactor;
+        var actualH = CARD_H * scaleFactor;
+        var actualGap = gap * scaleFactor;
+        var gridTotalW = cols * actualW + (cols - 1) * actualGap;
+        var rows = Math.ceil(TOTAL / cols);
+        var gridTotalH = rows * actualH + (rows - 1) * actualGap;
+        var startX = -gridTotalW / 2 + actualW / 2;
+        var startY = -gridTotalH / 2 + actualH / 2 - 20; // 약간 위로
 
-        var x = cx + (ax - cx) * t;
-        var y = cy + (ay - cy) * t;
-        var rot = cr + (ar - cr) * t;
-        var sc = 1 + t * 0.04;
+        var cR = getR(Math.min(180, cw * 0.28)); // 모바일 원형 반경 축소
 
-        cardEls[i].style.transform =
-          'translate(-50%,-50%) translate(' + x + 'px,' + y + 'px) rotate(' + rot + 'deg) scale(' + sc + ')';
-        cardEls[i].style.zIndex = TOTAL + i;
+        for (var i = 0; i < TOTAL; i++) {
+          // Circle position (시작)
+          var ang = (i / TOTAL) * Math.PI * 2 - Math.PI / 2;
+          var cx = Math.cos(ang) * cR;
+          var cy = Math.sin(ang) * cR;
+          var cr = (ang * 180) / Math.PI + 90;
+
+          // Grid position (도착)
+          var col = i % cols;
+          var row = Math.floor(i / cols);
+          var gx = startX + col * (actualW + actualGap);
+          var gy = startY + row * (actualH + actualGap);
+
+          var x = cx + (gx - cx) * t;
+          var y = cy + (gy - cy) * t;
+          var rot = cr + (0 - cr) * t; // 회전 → 0도
+          var sc = 1 + (scaleFactor - 1) * t; // 스케일 조정
+
+          cardEls[i].style.transform =
+            'translate(-50%,-50%) translate(' + x + 'px,' + y + 'px) rotate(' + rot + 'deg) scale(' + sc + ')';
+          cardEls[i].style.zIndex = TOTAL + i;
+        }
+      } else {
+        // ═══ DESKTOP: 원형 → 아치형 (기존 로직) ═══
+        var cR = getR(300), aR = getR(360), off = ch * 0.06;
+
+        for (var i = 0; i < TOTAL; i++) {
+          var ang = (i / TOTAL) * Math.PI * 2 - Math.PI / 2;
+          var cx = Math.cos(ang) * cR, cy = Math.sin(ang) * cR;
+          var cr = (ang * 180) / Math.PI + 90;
+          var aa = Math.PI - (i / (TOTAL - 1)) * Math.PI;
+          var ax = Math.cos(aa) * aR, ay = -Math.sin(aa) * aR + off;
+          var ar = ((aa - Math.PI/2) * 180) / Math.PI * 0.25;
+
+          var x = cx + (ax - cx) * t;
+          var y = cy + (ay - cy) * t;
+          var rot = cr + (ar - cr) * t;
+          var sc = 1 + t * 0.04;
+
+          cardEls[i].style.transform =
+            'translate(-50%,-50%) translate(' + x + 'px,' + y + 'px) rotate(' + rot + 'deg) scale(' + sc + ')';
+          cardEls[i].style.zIndex = TOTAL + i;
+        }
       }
 
       // Update UI
@@ -1869,7 +1913,15 @@ ul, ol { list-style: none; }
       var sz = Math.min(cw * 0.65, 560);
       inkCircle.style.width = sz + 'px';
       inkCircle.style.height = sz + 'px';
-      arcTextEl.style.paddingTop = (ch * 0.1) + 'px';
+      // 모바일: 아치 텍스트를 상단에 배치 (그리드와 겹침 방지)
+      if (cw < 768) {
+        arcTextEl.style.paddingTop = '0';
+        arcTextEl.style.justifyContent = 'flex-start';
+        arcTextEl.style.paddingTop = (ch * 0.02) + 'px';
+      } else {
+        arcTextEl.style.justifyContent = 'center';
+        arcTextEl.style.paddingTop = (ch * 0.1) + 'px';
+      }
     }
     window.addEventListener('resize', onResize);
     onResize();
