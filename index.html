@@ -1742,22 +1742,22 @@ ul, ol { list-style: none; }
   // ── Scroll Morph Gallery Hero ──
   (function initMorphHero() {
     const FOLDERS = [
-      { id:"about",       icon:"🏛️", title:"승가회 소개",  bg:"#115e59", ac:"#fcd34d" },
-      { id:"news",        icon:"📢", title:"소식",          bg:"#991b1b", ac:"#fde68a" },
-      { id:"activities",  icon:"✊", title:"실천 활동",    bg:"#064e3b", ac:"#fcd34d" },
-      { id:"participate", icon:"🤝", title:"연대와 참여",  bg:"#881337", ac:"#fef08a" },
-      { id:"archive",     icon:"📜", title:"아카이브",      bg:"#164e63", ac:"#fcd34d" },
-      { id:"slides",      icon:"📊", title:"슬라이드",      bg:"#7c2d12", ac:"#fde68a" },
-      { id:"quiz",        icon:"❓", title:"퀴즈",          bg:"#312e81", ac:"#fcd34d" },
-      { id:"qna",         icon:"💬", title:"Q&A",           bg:"#44403c", ac:"#fef08a" },
-      { id:"flashcards",  icon:"🃏", title:"플래시카드",    bg:"#115e59", ac:"#fde68a" },
-      { id:"mindmaps",    icon:"🧠", title:"마인드맵",      bg:"#991b1b", ac:"#fcd34d" },
-      { id:"infographic", icon:"📈", title:"인포그래픽",    bg:"#064e3b", ac:"#fef08a" },
-      { id:"reports",     icon:"📋", title:"보고서",        bg:"#881337", ac:"#fcd34d" },
-      { id:"data-tables", icon:"📉", title:"데이터 표",    bg:"#164e63", ac:"#fde68a" },
-      { id:"donate",      icon:"🙏", title:"후원하기",      bg:"#7c2d12", ac:"#fcd34d" },
-      { id:"register",    icon:"☸️", title:"회원가입",      bg:"#312e81", ac:"#fef08a" },
-      { id:"contact",     icon:"📞", title:"문의",          bg:"#44403c", ac:"#fcd34d" },
+      { id:"about",       icon:"🏛️", title:"승가회 소개",  bg:"#115e59", ac:"#fcd34d", href:"#about" },
+      { id:"news",        icon:"📢", title:"소식",          bg:"#991b1b", ac:"#fde68a", href:"#news" },
+      { id:"activities",  icon:"✊", title:"실천 활동",    bg:"#064e3b", ac:"#fcd34d", href:"#activities" },
+      { id:"participate", icon:"🤝", title:"연대와 참여",  bg:"#881337", ac:"#fef08a", href:"#participate" },
+      { id:"archive",     icon:"📜", title:"아카이브",      bg:"#164e63", ac:"#fcd34d", href:"#archive" },
+      { id:"slides",      icon:"📊", title:"슬라이드",      bg:"#7c2d12", ac:"#fde68a", href:"#studio" },
+      { id:"quiz",        icon:"❓", title:"퀴즈",          bg:"#312e81", ac:"#fcd34d", href:"#studio" },
+      { id:"qna",         icon:"💬", title:"Q&A",           bg:"#44403c", ac:"#fef08a", href:"#studio" },
+      { id:"flashcards",  icon:"🃏", title:"플래시카드",    bg:"#115e59", ac:"#fde68a", href:"#studio" },
+      { id:"mindmaps",    icon:"🧠", title:"마인드맵",      bg:"#991b1b", ac:"#fcd34d", href:"#studio" },
+      { id:"infographic", icon:"📈", title:"인포그래픽",    bg:"#064e3b", ac:"#fef08a", href:"#studio" },
+      { id:"reports",     icon:"📋", title:"보고서",        bg:"#881337", ac:"#fcd34d", href:"#studio" },
+      { id:"data-tables", icon:"📉", title:"데이터 표",    bg:"#164e63", ac:"#fde68a", href:"#studio" },
+      { id:"donate",      icon:"🙏", title:"후원하기",      bg:"#7c2d12", ac:"#fcd34d", href:"#donate" },
+      { id:"register",    icon:"☸️", title:"회원가입",      bg:"#312e81", ac:"#fef08a", href:"#participate" },
+      { id:"contact",     icon:"📞", title:"문의",          bg:"#44403c", ac:"#fcd34d", href:"#donate" },
     ];
     const TOTAL = FOLDERS.length;
     const CARD_W = 126, CARD_H = 96;
@@ -1783,6 +1783,9 @@ ul, ol { list-style: none; }
       card.className = 'morph-card';
       card.style.width = CARD_W + 'px';
       card.style.height = CARD_H + 'px';
+      card.setAttribute('role', 'link');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', f.title + ' 바로가기');
       card.innerHTML = `
         <div class="morph-card__inner">
           <div class="morph-card__front">
@@ -1796,6 +1799,21 @@ ul, ol { list-style: none; }
             <span class="morph-card__back-sub">→ ${f.title}</span>
           </div>
         </div>`;
+      // ★ 클릭 시 해당 섹션으로 스크롤 이동
+      card.addEventListener('click', function() {
+        var target = document.querySelector(f.href);
+        if (target) {
+          var offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 64;
+          window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+        }
+      });
+      // 키보드 접근성
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
       cardsContainer.appendChild(card);
       return card;
     });
